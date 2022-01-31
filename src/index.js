@@ -68,8 +68,8 @@ app.listen(port, () => {
 });
 
 
-const crypto = require('crypto');
-const password = 'abc123';
-const secret = 'mySecretKey123!@#'
-const hashed = crypto.createHmac('sha256', secret).update(password).digest('hex');
-console.log(hashed);
+// const crypto = require('crypto');
+// const password = 'abc123';
+// const secret = 'mySecretKey123!@#'
+// const hashed = crypto.createHmac('sha256', secret).update(password).digest('hex');
+// console.log(hashed);

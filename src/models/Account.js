@@ -12,13 +12,13 @@ const Account = new Schema({
     profile: {
         username: String,
         nickname: String,
+        email: { type: String },
         age: { type: Number, default: 0 },
         gender: { type: String, default: 'N' },
         phoneNumber: String,
         friendsName: { type: String, default: 'N' },
         thumbnail: { type: String, default: '' }
     },
-    email: { type: String },
     // 소셜 계정으로 회원가입을 할 경우에는 각 서비스에서 제공되는 id 와 accessToken 을 저장합니다
     social: {
         google: {
@@ -32,14 +32,15 @@ const Account = new Schema({
 
 
 Account.statics.findByUsername = function(username) {
-    // 객체에 내장되어있는 값을 사용 할 때는 객체명.키 이런식으로 쿼리하면 됩니다
+    // 객체에 내장되어있는 값을 사용 할 때는 '객체명.키' 이런식으로 쿼리하면 됩니다
     return this.findOne({'profile.username': username}).exec();
 };
 
 // 필요에 의해 성별, 나이, 추천인도 함수 생성
 
 Account.statics.findByEmail = function(email) {
-    return this.findOne({email}).exec();
+    // return this.findOne({email}).exec(); // profile 밖에 있을때는 그냥 email로 호출 됨
+    return this.findOne({'profile.email': email}).exec();
 };
 
 Account.statics.findByNickName = function(nickname) {
@@ -51,19 +52,30 @@ Account.statics.findByEmailOrNickName = function({nickname, email}) {
     return this.findOne({
         // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다
         $or: [
-            { 'profile.nickname': nickname },
-            { email }
+            {'profile.nickname': nickname},
+            {'profile.email': email}
+        ]
+    }).exec();
+};
+
+Account.statics.findByEmailAndUserName = function({username, email}) {
+    return this.findOne({
+        // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다
+        $and: [
+            {'profile.username': username},
+            {'profile.email': email}
         ]
     }).exec();
 };
 
 Account.statics.register = function(
-    { username, nickname, age, gender, phoneNumber, friendsName, thumbnail, email}) {
+    { username, nickname, email, age, gender, phoneNumber, friendsName, thumbnail}) {
     // 데이터를 생성 할 때는 new this() 를 사용합니다.
     const account = new this({
         profile: {
             username,
             nickname,
+            email,
             age,
             gender,
             phoneNumber,
@@ -71,7 +83,6 @@ Account.statics.register = function(
             thumbnail
             // thumbnail 값을 설정하지 않으면 기본값으로 설정됩니다.
         },
-        email,
         // password: hash(password)
     });
 
@@ -83,6 +94,7 @@ Account.methods.validatePassword = function(password) {
     const hashed = hash(password);
     return this.password === hashed;
 };
+
 
 
 module.exports = mongoose.model('Account', Account);
