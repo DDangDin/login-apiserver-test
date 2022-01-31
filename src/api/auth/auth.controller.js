@@ -3,7 +3,7 @@ const Account = require('../../models/Account');
 
 // 회원가입
 // 데이터 검증은 안드로이드 스튜디오에서..!!!
-exports.register = async (ctx) => {
+exports.register = async (ctx) => { // 전화번호도 검사!!
      // 닉네임 / 이메일 중복 체크
      let existing = null;
      try {
