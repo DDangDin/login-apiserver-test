@@ -47,7 +47,6 @@ Account.statics.findByNickName = function(nickname) {
     return this.findOne({'profile.nickname': nickname}).exec();
 };
 
-
 Account.statics.findByEmailOrNickName = function({nickname, email}) {
     return this.findOne({
         // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다

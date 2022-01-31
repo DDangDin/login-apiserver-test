@@ -16,7 +16,7 @@ exports.register = async (ctx) => {
      // 중복되는 닉네임/이메일이 있을 경우
          ctx.status = 409; // Conflict
          // 어떤 값이 중복되었는지 알려줍니다
-         ctx.body = {
+         ctx.body = { // existing.profile 경로 신중
              key: existing.profile.email === ctx.request.body.email ? 'email' : 'nickname',
              emailValue: `${existing.profile.email}, ${ctx.request.body.email}`,
              nicknameValue: `${existing.profile.nickname}, ${ctx.request.body.nickname}`,
