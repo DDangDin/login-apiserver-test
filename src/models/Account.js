@@ -96,5 +96,4 @@ Account.methods.validatePassword = function(password) {
 };
 
 
-
 module.exports = mongoose.model('Account', Account);

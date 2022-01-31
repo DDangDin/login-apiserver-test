@@ -24,7 +24,6 @@ exports.register = async (ctx) => {
          return;
      }
 
-
     // 계정 생성
     let account = null;
     try {
