@@ -79,7 +79,7 @@ exports.exists = async (ctx) => {
 
     try {
         // key 에 따라 findByEmail 혹은 findByUsername 을 실행합니다.
-        account = await (key === 'nickname' ? Account.findByNickName(value) : Account.find);    
+        account = await (key === 'nickname' ? Account.findByNickName(value) : Account.findByFriendsName(value));    
     } catch (e) {
         ctx.throw(500, e);
     }
