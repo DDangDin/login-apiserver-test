@@ -47,17 +47,22 @@ Account.statics.findByNickName = function(nickname) {
     return this.findOne({'profile.nickname': nickname}).exec();
 };
 
-Account.statics.findByEmailOrNickName = function({nickname, email}) {
+Account.statics.findByFriendsName = function(friendsName) {
+    return this.findOne({'profile.friendsName': friendsName}).exec();
+};
+
+Account.statics.findDataForRegister = function({nickname, email, phoneNumber}) {
     return this.findOne({
         // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다
         $or: [
             {'profile.nickname': nickname},
-            {'profile.email': email}
+            {'profile.email': email},
+            {'profile.phoneNumber': phoneNumber}
         ]
     }).exec();
 };
 
-Account.statics.findByEmailAndUserName = function({username, email}) {
+Account.statics.findDataForLogin = function({username, email}) {
     return this.findOne({
         // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다
         $and: [
@@ -66,6 +71,17 @@ Account.statics.findByEmailAndUserName = function({username, email}) {
         ]
     }).exec();
 };
+
+// Account.statics.findByUsersData = function({username, email, phoneNumber}) { // For Register
+//     return this.findOne({
+//         // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다
+//         $and: [
+//             {'profile.username': username},
+//             {'profile.email': email},
+//             {'profile.phoneNumber': phoneNumber}
+//         ]
+//     }).exec();
+// };
 
 Account.statics.register = function(
     { username, nickname, email, age, gender, phoneNumber, friendsName, thumbnail}) {

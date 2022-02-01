@@ -7,7 +7,7 @@ exports.register = async (ctx) => { // 전화번호도 검사!!
      // 닉네임 / 이메일 중복 체크
      let existing = null;
      try {
-         existing = await Account.findByEmailOrNickName(ctx.request.body);
+         existing = await Account.findDataForRegister(ctx.request.body);
      } catch (e) {
          ctx.throw(500, e);
      }
@@ -15,11 +15,12 @@ exports.register = async (ctx) => { // 전화번호도 검사!!
      if(existing) {
      // 중복되는 닉네임/이메일이 있을 경우
          ctx.status = 409; // Conflict
-         // 어떤 값이 중복되었는지 알려줍니다
+         // 어떤 값이 중복되었는지 알려줌
          ctx.body = { // existing.profile 경로 신중
-             key: existing.profile.email === ctx.request.body.email ? 'email' : 'nickname',
+             key: existing.profile.email === ctx.request.body.email ? 'email' : 'nickname or phoneNumber',
              emailValue: `${existing.profile.email}, ${ctx.request.body.email}`,
              nicknameValue: `${existing.profile.nickname}, ${ctx.request.body.nickname}`,
+             phoneNumberValue: `${existing.profile.phoneNumber}, ${ctx.request.body.phoneNumber}`
          };
          return;
      }
@@ -71,14 +72,14 @@ exports.login = async (ctx) => {
 };
 
 
-// 이메일 / 아이디 존재유무 확인 (닉네임 하고 추천인 검사하는데 수정해서 사용하기)
+
 exports.exists = async (ctx) => {
     const { key, value } = ctx.params;
     let account = null;
 
     try {
         // key 에 따라 findByEmail 혹은 findByUsername 을 실행합니다.
-        account = await (key === 'email' ? Account.findByEmail(value) : Account.findByNickName(value));    
+        account = await (key === 'nickname' ? Account.findByNickName(value) : Account.find);    
     } catch (e) {
         ctx.throw(500, e);
     }
