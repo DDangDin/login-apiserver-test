@@ -33,7 +33,12 @@ exports.register = async (ctx) => { // 전화번호도 검사!!
         ctx.throw(500, e);
     }
 
-    ctx.body = account.profile; // 프로필 정보로 응답합니다.
+    // ctx.throw(400, "Hello World Error", errorProperties);
+
+    var jsonType = mime.lookup('json');
+    ctx.response.set("content-type", jsonType);
+    ctx.body = JSON.stringify(account.profile); // 프로필 정보로 응답합니다.
+    
 };
 
 

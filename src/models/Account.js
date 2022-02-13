@@ -47,7 +47,7 @@ Account.statics.findByNickName = function(nickname) {
     return this.findOne({'profile.nickname': nickname}).exec();
 };
 
-Account.statics.findByFriendsName = function(friendsName) {
+Account.statics.findByFriendsName = function(friendsName) { // 계속 true만 반환하는 듯
     return this.findOne({'profile.friendsName': friendsName}).exec();
 };
 
