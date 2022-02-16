@@ -60,8 +60,9 @@ exports.login = async (ctx) => {
     // }
 
 
-    const value = ctx.params
-    let account = null
+    const { value } = ctx.params;
+    let account = null;
+    
     try{
         // 이메일로 계정 찾기
         account = await Account.findByEmail(value);
