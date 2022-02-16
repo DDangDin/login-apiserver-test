@@ -62,7 +62,7 @@ exports.login = async (ctx) => {
 
     const { value } = ctx.params;
     let account = null;
-    
+
     try{
         // 이메일로 계정 찾기
         account = await Account.findByEmail(value);
@@ -73,6 +73,9 @@ exports.login = async (ctx) => {
     if(!account) {
         // 유저가 존재하지 않거나 || 닉네임이 일치하지 않으면
             ctx.status = 403; // Forbidden
+            ctx.body = {
+                exists: false
+            };
             return;
         }
     
