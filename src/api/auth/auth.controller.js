@@ -63,7 +63,7 @@ exports.login = async (ctx) => {
     let account = null
     try{
         // 이메일로 계정 찾기
-        account = await Account.findByEmailAndUserName(ctx.request.body);
+        account = await Account.findByEmail(ctx.request.body);
     } catch (e) {
         ctx.throw(500, e);
     }
