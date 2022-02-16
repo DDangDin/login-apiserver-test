@@ -60,12 +60,12 @@ exports.login = async (ctx) => {
     // }
 
 
-    const { value } = ctx.params;
+    // const { value } = ctx.params;
     let account = null;
 
     try{
         // 이메일로 계정 찾기
-        account = await Account.findByEmail(value);
+        account = await Account.findByEmail(ctx.request.body);
     } catch (e) {
         ctx.throw(500, e);
     }
