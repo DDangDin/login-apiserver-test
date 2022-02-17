@@ -39,7 +39,7 @@ exports.register = async (ctx) => { // 전화번호도 검사!!
     // ctx.response.set("content-type", jsonType);
     // ctx.body = JSON.stringify(account.profile); // 프로필 정보로 응답합니다.
     
-    ctx.body = account.profile; // 프로필 정보로 응답합니다.
+    // ctx.body = account.profile; // 프로필 정보로 응답합니다.
     
 };
 
@@ -60,12 +60,12 @@ exports.login = async (ctx) => {
     // }
 
 
-    // const { value } = ctx.params;
+    const { value } = ctx.params;
     let account = null;
 
     try{
         // 이메일로 계정 찾기
-        account = await Account.findByEmail(ctx.request.body);
+        account = await Account.findByEmail(value);
     } catch (e) {
         ctx.throw(500, e);
     }
